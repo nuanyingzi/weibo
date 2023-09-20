@@ -12,7 +12,6 @@ class UsersController extends Controller
 {
     /**
      * 注册页面
-     * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
     public function create()
     {
@@ -22,7 +21,6 @@ class UsersController extends Controller
     /**
      * 用户详情
      * @param User $user
-     * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
      */
     public function show(User $user)
     {
@@ -32,10 +30,16 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "name" => "required|unique:users|max:50",
-            "email" => "required|email|unique:users|max:255",
-            "password" => "required|confirmed|min:6",
+            'name' => 'required|unique:users|max:50',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|confirmed|min:6'
         ]);
-        return;
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+        session()->flash('success', 'Welcome to ，您将在这里开启一段新的旅程~');
+        return redirect()->route('users.show', [$user]);
     }
 }
