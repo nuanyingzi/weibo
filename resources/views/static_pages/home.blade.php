@@ -8,7 +8,7 @@
     </p>
     <p>Baby, tell me, why?</p>
     <p>
-      <a class="btn btn-lg btn-success" href="#" role="button">REGISTER</a>
+      <a class="btn btn-lg btn-success" href="#" role="button">注册</a>
     </p>
   </div>
 @stop
