@@ -22,9 +22,9 @@ class UsersController extends Controller
         $this->validate(
             $request,
             [
-                'name|姓名' => 'required|unique:users|max:60',
-                'email|电子邮箱' => 'required|email|unique:users|max:255',
-                'password|密码' => 'required|confirmed|min:6'
+                'name' => 'required|unique:users|max:60',
+                'email' => 'required|email|unique:users|max:255',
+                'password' => 'required|confirmed|min:6'
             ]
         );
         halt($request);
