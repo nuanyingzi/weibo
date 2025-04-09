@@ -33,6 +33,7 @@ class UsersController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        Auth::login($user);
         session()->flash('success', '注册成功，欢迎开启一段新的旅程~');
         return redirect()->route('users.show', [$user]);
     }
