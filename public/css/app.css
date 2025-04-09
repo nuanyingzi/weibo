@@ -12017,3 +12017,8 @@ section.user_info h1, section.user_info .h1 {
   max-width: 50px;
   border-radius: 50%;
 }
+
+.form-group {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
