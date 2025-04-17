@@ -7,6 +7,18 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        // 登录用户访问接口
+        $this->middleware('auth', [
+            'except' => ['show', 'create', 'store']
+        ]);
+        // 游客访问接口
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
     // 注册页面
     public function create()
     {
@@ -44,12 +56,14 @@ class UsersController extends Controller
     // 编辑页面
     public function edit(User $user)
     {
+        $this->authorize('update', $user); // 授权策略
         return view('users.edit', compact('user'));
     }
 
     // 编辑功能
     public function update(User $user, Request $request)
     {
+        $this->authorize('update', $user); // 授权策略
         $this->validate(
             $request,
             [
