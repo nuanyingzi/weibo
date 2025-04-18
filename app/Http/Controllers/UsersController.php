@@ -80,4 +80,10 @@ class UsersController extends Controller
         session()->flash('success', '个人资料更新成功');
         return redirect()->route('users.show', $user->id);
     }
+
+    public function index()
+    {
+        $users = User::all();
+        return view('users.index', compact('users'));
+    }
 }
