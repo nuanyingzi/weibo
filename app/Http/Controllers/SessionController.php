@@ -28,8 +28,7 @@ class SessionController extends Controller
             'password' => 'required'
         ]);
         if (Auth::attempt($credentials, $request->has('remember'))) {
-
-            if (Auth::user()->activited) { // 已认证
+            if (Auth::user()->activated) { // 已认证
                 // 登录成功
                 session()->flash('success', '欢迎回来！');
                 $fallback = route('users.show', Auth::user());
