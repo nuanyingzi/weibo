@@ -13,6 +13,14 @@ use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
+    public function __construct()
+    {
+        // 限流访问，10分钟3次
+        $this->middleware('throttle:3,10', [
+            'only' => ['showLinkRequestForm']
+        ]);
+    }
+
     // 忘记密码界面
     public function showLinkRequestForm()
     {
