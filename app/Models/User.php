@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -58,6 +59,10 @@ class User extends Authenticatable
         return "https://cdn.v2ex.com/gravatar/$hash?s=$size";
     }
 
+    /**
+     * 关联留言
+     * @return HasMany
+     */
     public function statuses()
     {
         return $this->hasMany(Status::class);
