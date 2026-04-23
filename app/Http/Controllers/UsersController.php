@@ -51,4 +51,41 @@ class UsersController extends Controller
         session()->flash('success', '注册成功，欢迎您开启您的账号');
         return redirect()->route('users.show', $user);
     }
+
+    /**
+     * 显示编辑用户资源的表单。
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
+    }
+
+    /**
+     * 更新用户资源。
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:50',
+            'password' => 'nullable|min:6|confirmed',
+        ]);
+
+        $data = [];
+        $data['name'] = $request->name;
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $user->update($data);
+
+        session()->flash('success', '更新成功');
+        return redirect()->route('users.show', $user);
+
+    }
 }
