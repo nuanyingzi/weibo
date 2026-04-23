@@ -8,14 +8,28 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
+
+    public function __construct()
+    {
+        // 登录用户才能访问 except 中的路由
+        $this->middleware('auth', [
+            'except' => ['show','create', 'store', 'index'],
+        ]);
+        // 未登录用户才能访问 create 路由
+        $this->middleware('guest', [
+            'only' => ['create'],
+        ]);
+    }
+
     /**
-     * 显示创建用户资源的表单。
+     * 显示所有用户资源。
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function index()
     {
-        return view('users.create');
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -60,6 +74,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
@@ -72,6 +87,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('update', $user);
         $this->validate($request, [
             'name' => 'required|max:50',
             'password' => 'nullable|min:6|confirmed',
@@ -87,5 +103,13 @@ class UsersController extends Controller
         session()->flash('success', '更新成功');
         return redirect()->route('users.show', $user);
 
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '删除成功');
+        return redirect()->route('users.index');
     }
 }

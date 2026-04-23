@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class SessionsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest', [
+            'only' => ['create'],
+        ]);
+    }
     /**
      * 显示登录界面。
      *
@@ -32,7 +39,8 @@ class SessionsController extends Controller
 
         if (Auth::attempt($credentials, $request->has('remember'))) { // 认证成功
             session()->flash('success', '登录成功，欢迎回来');
-            return redirect()->route('users.show', [Auth::user()]);
+            $fallbackUrl = route('users.show', [Auth::user()]);
+            return redirect()->intended($fallbackUrl);
         } else { // 认证失败
             session()->flash('danger', '抱歉，邮箱或密码错误');
             return redirect()->back()->withInput($credentials);
