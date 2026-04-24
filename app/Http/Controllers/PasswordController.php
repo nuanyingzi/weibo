@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Mail;
 class PasswordController extends Controller
 {
 
+    public function __construct()
+    {
+        // 限流 3次/10分
+        $this->middleware('throttle:3,10');
+    }
+
     /**
      * 显示密码重置链接请求表单。
      *
