@@ -45,9 +45,15 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()->orderBy('created_at', 'desc')->paginate(10);
+        return view('users.show', compact('user', 'statuses'));
     }
 
+    /**
+     * 显示创建用户资源的表单。
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('users.create');
@@ -115,6 +121,12 @@ class UsersController extends Controller
 
     }
 
+    /**
+     * 删除用户资源。
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(User $user)
     {
         $this->authorize('destroy', $user);
