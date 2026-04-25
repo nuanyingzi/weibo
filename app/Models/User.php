@@ -44,6 +44,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // 关联文章 一对多关系
     public function statuses()
     {
         return $this->hasMany(Status::class);
@@ -66,6 +67,14 @@ class User extends Authenticatable
         // $hash = md5(strtolower(trim($this->attributes['email'])));
         // return "https://www.gravatar.com/avatar/$hash?s=$size";
         return Storage::url('images/hashiqi.png');
+    }
+
+    /**
+     * 获取用户关注的微博
+     */
+    public function feed()
+    {
+        return $this->statuses()->orderBy('created_at', 'desc');
     }
 
 }

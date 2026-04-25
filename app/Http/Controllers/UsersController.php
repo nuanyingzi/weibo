@@ -21,7 +21,7 @@ class UsersController extends Controller
             'only' => ['create'],
         ]);
         // 注册限流 10次/1小时
-        $this->middleware('throttle:10,60', [
+        $this->middleware('throttle:register,10,60', [
             'only' => ['store'],
         ]);
     }

@@ -14,7 +14,7 @@ class SessionsController extends Controller
             'only' => ['create'],
         ]);
         // 登录限流 10次/10分
-        $this->middleware('throttle:10,10', [
+        $this->middleware('throttle:20,10', [
             'only' => ['store'],
         ]);
     }
