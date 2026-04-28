@@ -167,4 +167,30 @@ class UsersController extends Controller
         session()->flash('success', '激活成功，欢迎您开启您的账号');
         return redirect()->route('users.show', [$user]);
     }
+
+    /**
+     * 显示指定用户关注的用户资源。
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function followings(User $user)
+    {
+        $users = $user->followings()->orderBy('created_at', 'desc')->paginate(30);
+        $title = $user->name . "关注的人";
+        return view('users.show_follow', compact('users', 'title'));
+    }
+
+    /**
+     * 显示指定用户粉丝的用户资源。
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function followers(User $user)
+    {
+        $users = $user->followers()->orderBy('created_at', 'desc')->paginate(30);
+        $title = $user->name . "的粉丝";
+        return view('users.show_follow', compact('users', 'title'));
+    }
 }

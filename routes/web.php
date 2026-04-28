@@ -39,3 +39,14 @@ Route::post('password/reset', 'PasswordController@reset')->name('password.update
 // 文章资源路由
 Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
 
+// 关注资源路由
+Route::get('/users/{user}/followings', 'UsersController@followings')->name('users.followings');
+// 粉丝资源路由
+Route::get('/users/{user}/followers', 'UsersController@followers')->name('users.followers');
+// 关注-取消关注资源路由
+Route::post('/users/followers/{user}', 'FollowersController@store')->name('followers.store');
+// 取消关注资源路由
+Route::delete('/users/followers/{user}', 'FollowersController@destroy')->name('followers.destroy');
+
+
+
